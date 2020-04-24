@@ -23,10 +23,10 @@
 			<div class="weather-side">
 				<div class="weather-gradient"></div>
 				<div class="date-container">
-					<h2 class="date-dayname">Tuesday</h2><span class="date-day">15 Jan 2019</span><i class="location-icon" data-feather="map-pin"></i><span class="location">Paris, FR</span>
+					<h2 class="date-dayname">Tuesday</h2><span class="date-day">{{ todayDateTime }}</span><i class="location-icon" data-feather="map-pin"></i><span class="location">{{ location }}</span>
 				</div>
 				<div class="weather-container"><i class="weather-icon" data-feather="sun"></i>
-					<h1 class="weather-temp">29°C</h1>
+					<h1 class="weather-temp">{{ temperature }}°C</h1>
 					<h3 class="weather-desc">{{ weather }}</h3>
 				</div>
 			</div>
@@ -61,6 +61,10 @@
 		</div>
 
 		<script>
+			var today = new Date();
+			var date = today.getDate()+'/'+(today.getMonth()+1)+'/'+today.getFullYear();
+			var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+			
 			feather.replace();
 			
 			new Vue({
@@ -70,28 +74,34 @@
 					location: '',
 					weather: 'n/a',
 					humidity: 'n/a',
+					temperature: 'n/a',
 					wind: '0',
+					todayDateTime: date + ' ' + time,
 				},
-
+				created: function () {
+					console.log(date, time);
+				},
 				methods: {
 					getWeather: function ()
 					{
 						var vm = this;
 
-						axios.get('https://api.openweathermap.org/data/2.5/weather?q=' + this.location + '&appid=a73c8e323a5ee668508492bd85da9ce8')
+						axios.get('https://api.openweathermap.org/data/2.5/weather?units=metric&q=' + this.location + '&appid=a73c8e323a5ee668508492bd85da9ce8')
 							.then(function (response)
 							{
 								console.log(response);
 								vm.weather = response.data.weather[0].main;
 								vm.wind = response.data.wind.speed;
 								vm.humidity = response.data.main.humidity;
+								vm.temperature = parseInt(response.data.main.temp);
 							})
 							.catch(function (error)
 							{
 
 							})
 					}
-				}
+				},
+				
 			});
 
 		</script>
