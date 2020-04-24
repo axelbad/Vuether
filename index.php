@@ -36,7 +36,7 @@
 						<div class="precipitation"> <span class="title">PRECIPITATION</span><span class="value">0 %</span>
 							<div class="clear"></div>
 						</div>
-						<div class="humidity"> <span class="title">HUMIDITY</span><span class="value">34 %</span>
+						<div class="humidity"> <span class="title">HUMIDITY</span><span class="value">{{ humidity }} %</span>
 							<div class="clear"></div>
 						</div>
 						<div class="wind"> <span class="title">WIND</span><span class="value">{{ wind }} km/h</span>
@@ -54,7 +54,7 @@
 					</ul>
 				</div>
 				<div class="location-container">
-					<input type="text" name="location" class="form-control" v-model="location">
+					<input type="text" name="location" class="form-control" v-model="location" placeholder="Insert a city name">
 					<button class="location-button" v-on:click="getWeather"> <i data-feather="map-pin"></i><span>Change location</span></button>
 				</div>
 			</div>
@@ -67,17 +67,16 @@
 				el: "#app",
 
 				data: {
-					location: "No city",
-					weather: '',
+					location: '',
+					weather: 'n/a',
+					humidity: 'n/a',
 					wind: '0',
 				},
 
 				methods: {
 					getWeather: function ()
 					{
-
-						this.answer = 'Thinking...'
-						var vm = this
+						var vm = this;
 
 						axios.get('https://api.openweathermap.org/data/2.5/weather?q=' + this.location + '&appid=a73c8e323a5ee668508492bd85da9ce8')
 							.then(function (response)
@@ -85,6 +84,7 @@
 								console.log(response);
 								vm.weather = response.data.weather[0].main;
 								vm.wind = response.data.wind.speed;
+								vm.humidity = response.data.main.humidity;
 							})
 							.catch(function (error)
 							{
