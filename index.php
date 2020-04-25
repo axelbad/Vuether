@@ -13,6 +13,7 @@
 		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+		<script src="js/moment.min.js"></script>
 		
 		<script src="https://unpkg.com/feather-icons"></script>
 	</head>
