@@ -209,7 +209,7 @@ body {
 
 .location-button {
 	outline: none;
-	width: 100%;
+	/*width: 100%;*/
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	border: none;

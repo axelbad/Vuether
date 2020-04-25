@@ -25,7 +25,7 @@
 				<div class="date-container">
 					<h2 class="date-dayname">Tuesday</h2><span class="date-day">{{ todayDateTime }}</span><i class="location-icon" data-feather="map-pin"></i><span class="location">{{ location }}</span>
 				</div>
-				<div class="weather-container"><i class="weather-icon" data-feather="sun"></i>
+				<div class="weather-container"><img v-bind:src="srcImage" />
 					<h1 class="weather-temp">{{ temperature }}°C</h1>
 					<h3 class="weather-desc">{{ weather }}</h3>
 				</div>
@@ -54,7 +54,7 @@
 					</ul>
 				</div>
 				<div class="location-container">
-					<input type="text" name="location" class="form-control" v-model="location" placeholder="Insert a city name">
+					<input type="text" name="location" class="form-control" v-model="location" placeholder="Insert a city name" style="width: 130px; display: inline;">
 					<button class="location-button" v-on:click="getWeather"> <i data-feather="map-pin"></i><span>Change location</span></button>
 				</div>
 			</div>
@@ -77,6 +77,7 @@
 					temperature: 'n/a',
 					wind: '0',
 					todayDateTime: date + ' ' + time,
+					srcImage: '',
 				},
 				created: function () {
 					console.log(date, time);
@@ -90,10 +91,11 @@
 							.then(function (response)
 							{
 								console.log(response);
-								vm.weather = response.data.weather[0].main;
+								vm.weather = response.data.weather[0].description;
 								vm.wind = response.data.wind.speed;
 								vm.humidity = response.data.main.humidity;
 								vm.temperature = parseInt(response.data.main.temp);
+								vm.srcImage = "http://openweathermap.org/img/wn/" + response.data.weather[0].icon + "@2x.png"
 							})
 							.catch(function (error)
 							{
