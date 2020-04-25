@@ -24,7 +24,7 @@
 			<div class="weather-side">
 				<div class="weather-gradient"></div>
 				<div class="date-container">
-					<h2 class="date-dayname">Tuesday</h2><span class="date-day">{{ todayDateTime }}</span><i class="location-icon" data-feather="map-pin"></i><span class="location">{{ location }}</span>
+					<h2 class="date-dayname">{{ dayName }}</h2><span class="date-day">{{ todayDateTime }}</span><i class="location-icon" data-feather="map-pin"></i><span class="location">{{ location }}</span>
 				</div>
 				<div class="weather-container"><img v-bind:src="srcImage" />
 					<h1 class="weather-temp">{{ temperature }}°C</h1>
@@ -34,7 +34,7 @@
 			<div class="info-side">
 				<div class="today-info-container">
 					<div class="today-info">
-						<div class="precipitation"> <span class="title">PRECIPITATION</span><span class="value">0 %</span>
+						<div class="precipitation"> <span class="title">FEELS LIKE</span><span class="value">{{ feels_like }}</span>
 							<div class="clear"></div>
 						</div>
 						<div class="humidity"> <span class="title">HUMIDITY</span><span class="value">{{ humidity }} %</span>
@@ -78,7 +78,9 @@
 					temperature: 'n/a',
 					wind: '0',
 					todayDateTime: date + ' ' + time,
+					dayName: moment().format('dddd'),
 					srcImage: '',
+					feels_like: '',
 				},
 				created: function () {
 					console.log(date, time);
@@ -95,6 +97,7 @@
 								vm.weather = response.data.weather[0].description;
 								vm.wind = response.data.wind.speed;
 								vm.humidity = response.data.main.humidity;
+								vm.feels_like = response.data.main.feels_like + ' °C';
 								vm.temperature = parseInt(response.data.main.temp);
 								vm.srcImage = "http://openweathermap.org/img/wn/" + response.data.weather[0].icon + "@2x.png"
 							})
